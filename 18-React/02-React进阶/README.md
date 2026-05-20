@@ -422,7 +422,7 @@ export default connect(
 多个 reducer 合并，与不同组件间共享数据（如 `Count` 与 `Person` 组件）。
 
 ### 用法
-- 使用 `combineReducers` 合并多个 reducer，使 `state` 结构变为 `{ count, persons }`。
+- `reducers` 文件夹中，编写专门的 index.js 使用 `combineReducers` 汇总并暴露所有的 reducers。
 - `mapStateToProps` 中根据合并后的 state 取对应属性（如 `state.count`, `state.persons`）。
 
 [合并reducer](/12-Redux/06-react-redux数据共享/redux/reducers/index.js)
