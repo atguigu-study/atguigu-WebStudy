@@ -452,7 +452,40 @@ export default connect(
 
 ---
 
+## 15-setState的使用
+
+### 用法
+- 不要直接修改 `this.state`，统一通过 `this.setState()` 触发状态更新和视图重渲染。
+- 在 React 合成事件和生命周期中，`setState` 通常是异步批处理；如果要拿到更新后的值，可以使用 `setState(updater, callback)` 的回调，或在 `componentDidUpdate` 中读取。
+- ~~在 `setTimeout`、原生 DOM 事件（如 `addEventListener`）中，示例里 `setState` 表现为同步可立即读取。~~
+- 处理数组/对象等引用类型时，优先创建新引用（如展开运算符）再更新，避免直接改原数据导致 `PureComponent` / 浅比较失效。
 
 
+### 注意事项
+- `setState` 的异步/同步表现与触发上下文有关，实际开发中不要依赖“调用后立刻拿到新 state”。
+- setState(newState, [callback]) 对象式， `callback` 是可选回调，在状态更新完毕，界面也更新后（`render` 调用后）才被调用
+- setState(updater, [callback]) 函数式，`updater` 可以接收 `prevState` 和 `props` 作为参数，返回新的 state
+- 对象式的 setState 是函数式的 setState 的语法糖 
 
 
+## 16-lazyload的使用
+
+### 用法
+- 使用 `React.lazy(() => import('...'))` 对路由组件进行按需加载，减少首屏体积。
+- 用 `<Suspense fallback={...}>` 包裹延迟组件，在资源加载完成前展示兜底 UI（如 `Loading`）。
+- 常见搭配是“路由级懒加载”：在 `Routes` 内部渲染懒加载页面组件。
+
+[示例代码：](/07-性能优化/00_lazyloading.js)
+```jsx
+import React, { Suspense, lazy } from 'react'
+
+const About = lazy(() => import('./pages/About'))
+const Home = lazy(() => import('./pages/Home'))
+
+<Suspense fallback={<Loading />}>
+  <Routes>
+    <Route path="/about" element={<About />} />
+    <Route path="/home" element={<Home />} />
+  </Routes>
+</Suspense>
+```

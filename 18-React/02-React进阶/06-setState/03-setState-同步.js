@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 /**
  * setState在以下方式中是同步的：
  * 1.setTimeout
- * 2.原生dome事件。如addEventListener
+ * 2.原生dom事件。如addEventListener
  */
 
 export default class App extends Component {
