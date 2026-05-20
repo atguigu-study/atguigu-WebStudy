@@ -235,6 +235,7 @@ const { state: { id, title, content } } = useLocation()
 - `replace: true` 可以替换当前历史记录，避免返回到当前页。
 - `navigate()` 也支持数字参数：`navigate(1)` 前进，`navigate(-1)` 后退。
 
+[导航函数：](/14-Router/06-编程式路由导航/pages/Message.jsx)
 ```jsx
 import { useNavigate } from 'react-router-dom'
 
@@ -267,12 +268,12 @@ function showDetailPanel(item) {
 - 组件通过 `store.dispatch({type, data})` 触发更新，并用 `store.getState()` 读取当前状态。
 - `main.js` 中检测 store 中状态的改变，一旦发生改变，重新渲染 `<App/>`。 redux 只负责管理状态，至于状态的改变驱动着页面的展示，要靠自己写
 
-创建 store:
+[创建 store:](/12-Redux/01-精简版计算案例/redux/store.js)
 ```javascript
 const store = legacy_createStore(countReducer)
 ```
 
-编写 reducer：
+[编写 reducer：](/12-Redux/01-精简版计算案例/redux/reducer.js)
 ```javascript
 const initState = 0
 export default function countReducer(preState = initState, action) {
@@ -285,14 +286,14 @@ export default function countReducer(preState = initState, action) {
 }
 ```
 
-组件中获取状态，更新状态:
+[组件中获取状态，更新状态:](/12-Redux/01-精简版计算案例/Count.jsx)
 ```javascript
 const count = store.getState()
 
 store.dispatch({ type: 'increment', data: 1 })
 ```
 
-监测状态变化，重新渲染组件:
+[监测状态变化，重新渲染组件:](/12-Redux/01-精简版计算案例/main.jsx)
 ```javascript
 store.subscribe(() => {
   root.render(<React.StrictMode><App /></React.StrictMode>)
@@ -307,18 +308,18 @@ store.subscribe(() => {
 - 使用 `actions.js` 导出 action creators（比如 `incrementAction(data)`），
 - 组件通过 `store.dispatch(incrementAction(value))` 调用。
 
-constants:
+[constants:](/12-Redux/02-完整版计算案例/redux/constant.js)
 ```javascript
 export const INCREMENT = 'increment'
 export const DECREMENT = 'decrement'
 ```
 
-action creators:
+[action creators:](/12-Redux/02-完整版计算案例/redux/actions.js)
 ```javascript
 export const incrementAction = data => ({ type: INCREMENT, data })
 ```
 
-组件中从 store 中读取状态，更新状态:
+[组件中从 store 中读取状态，更新状态:](/12-Redux/02-完整版计算案例/Count.jsx)
 ```javascript
 store.dispatch(incrementAction(value))
 ```
@@ -330,7 +331,7 @@ store.dispatch(incrementAction(value))
 - store 在创建时通过 `applyMiddleware(thunk)` 注册中间件；
 - 异步 action 返回一个函数，函数接收 `dispatch`，内部可在异步完成后 `dispatch` 同步 action。
 
-创建 store:
+[创建 store:](/12-Redux/03-异步action/redux/store.js)
 ```javascript
 import { legacy_createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
@@ -338,7 +339,7 @@ import thunk from 'redux-thunk'
 const store = legacy_createStore(countReducer, applyMiddleware(thunk))
 ```
 
-异步 action:
+[异步 action:](/12-Redux/03-异步action/redux/actions.js)
 ```javascript
 export const incrementAsyncAction = (data, delay) => {
   return (dispatch) => {
