@@ -8,23 +8,23 @@ class Count extends Component {
   // 加
   increment = () => {
     const { value } = this.selectNumber
-    this.props.add(value)
+    this.props.add(value*1)
   }
   // 减
   decrement = () => {
     const { value } = this.selectNumber
-    this.props.reduce(value)
+    this.props.minus(value*1)
   }
   // 和为奇数时再加
-  incrementOfOdd = () => {
+  incrementIfOdd = () => {
     if (this.props.count % 2 === 0) return
     const { value } = this.selectNumber
-    this.props.add(value)
+    this.props.add(value*1)
   }
   // 异步加
-  incrementOfAsync = () => {
+  incrementIfAsync = () => {
     const { value } = this.selectNumber
-    this.props.addAsync(value, 1000)
+    this.props.addAsync(value*1, 1000)
   }
 
   render() {
@@ -39,8 +39,8 @@ class Count extends Component {
         </select>&nbsp;
         <button onClick={this.increment}>+</button>&nbsp;
         <button onClick={this.decrement}>-</button>&nbsp;
-        <button onClick={this.incrementOfOdd}>和为奇数时再加</button>&nbsp;
-        <button onClick={this.incrementOfAsync}>异步加</button>
+        <button onClick={this.incrementIfOdd}>和为奇数时再加</button>&nbsp;
+        <button onClick={this.incrementIfAsync}>异步加</button>
       </div>
     )
   }
@@ -58,6 +58,6 @@ export default connect(
   {
     add: incrementAction,
     addAsync: incrementAsyncAction,
-    reduce: decrementAction
+    minus: decrementAction
   }
 )(Count)

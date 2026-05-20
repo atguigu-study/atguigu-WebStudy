@@ -418,14 +418,14 @@ export default connect(
 )(CountUI)
 ```
 
-## 14-react-redux 多组件数据共享
-- 用途：演示多个 reducer 合并与不同组件间共享数据（如 `Count` 与 `Person` 组件）。
-- 关键点：
-  - 使用 `combineReducers` 合并多个 reducer，使 `state` 结构变为 `{ count, persons }`。
-  - `mapStateToProps` 中根据合并后的 state 取对应属性（如 `state.count`, `state.persons`）。
-  - 容器组件可从不同 slice 读取并传递给 UI，达到组件间共享数据的效果（见 [/12-Redux/06-react-redux数据共享/redux/reducers/index.js](/12-Redux/06-react-redux数据共享/redux/reducers/index.js)）。
+## 14-react-redux多组件数据共享
+多个 reducer 合并，与不同组件间共享数据（如 `Count` 与 `Person` 组件）。
 
-示例（合并 reducers）：
+### 用法
+- 使用 `combineReducers` 合并多个 reducer，使 `state` 结构变为 `{ count, persons }`。
+- `mapStateToProps` 中根据合并后的 state 取对应属性（如 `state.count`, `state.persons`）。
+
+[合并reducer](/12-Redux/06-react-redux数据共享/redux/reducers/index.js)
 ```javascript
 import { combineReducers } from 'redux'
 import countReducer from './count'
@@ -434,7 +434,22 @@ import personReducer from './person'
 export default combineReducers({ count: countReducer, persons: personReducer })
 ```
 
-注意：合并 reducer 后 `state` 变为对象，`mapStateToProps` 中读取路径要改为 `state.xxx`；同时在大型应用中推荐把 reducer 拆分为更小的 slice。
+[容器组件](/12-Redux/06-react-redux数据共享/containers/Count.jsx)
+```javascript
+export default connect(
+  state => ({ count: state.count, persons: state.persons }),
+  { add: incrementAction, reduce: decrementAction }
+)(CountUI)     
+```
+
+### 注意事项
+- 对于数组操作，`prevState.unshift()` 不会更新状态，需要 `[data, ...prevState]` 来更新数组的地址，这样才能触发更新。
+- redux 的 reducer 必须是一个纯函数，
+  - 不能改变参数，
+  - 不能有副作用（如网络请求，输入输出设备）
+  - 不能调用非纯函数（如 `Date.now()`，`Math.random()`）
+
+---
 
 
 

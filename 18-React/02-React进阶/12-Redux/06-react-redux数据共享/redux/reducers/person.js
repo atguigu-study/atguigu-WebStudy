@@ -1,13 +1,7 @@
 import { ADD_PERSON } from '../constant'
 
-export default function personReducer(preState, action) {
-  if (preState === undefined) {
-    preState = [{
-      id: '001',
-      name: 'Tom',
-      age: 23
-    }]
-  }
+const initState = []
+export default function personReducer(preState = initState, action) {
 
   const { type, data } = action
 

@@ -22,7 +22,7 @@ class Person extends Component {
   render() {
     return (
       <div>
-        <h2>Person组件</h2>
+        <h2>Person组件；上方组件求和为{this.props.count}</h2>
         <input type="text" ref={c => this.nameNode = c} placeholder="请输入名称" />
         <input type="text" ref={c => this.ageNode = c} placeholder="请输入年龄" />
         <button onClick={this.addPerson}>添加</button>
@@ -41,7 +41,8 @@ class Person extends Component {
 // 定义容器组件
 export default connect(
   state => ({
-    persons: state.persons
+    persons: state.persons,
+    count: state.count
   }),
   {
     addPersonProps: addPersonAction

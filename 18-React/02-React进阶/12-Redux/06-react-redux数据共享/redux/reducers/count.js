@@ -1,17 +1,14 @@
 import { INCREMENT, DECREMENT } from '../constant'
 
-export default function countReducer(preState, action) {
-  if (preState === undefined) {
-    preState = 0
-  }
-
+const initState = 0
+export default function countReducer(preState = initState, action) {
   const { type, data } = action
 
   switch (type) {
     case INCREMENT:
-      return preState + data * 1
+      return preState + data
     case DECREMENT:
-      return preState - data * 1
+      return preState - data
     default:
       return preState
   }
