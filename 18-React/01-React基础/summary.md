@@ -323,14 +323,14 @@ ReactDOM.render(vDOM, document.getElementById('test'))
 - 旧生命周期阶段：
   - 初始化：`constructor` -> `componentWillMount` -> `render` -> `componentDidMount`
   - 更新：`componentWillReceiveProps` -> `shouldComponentUpdate` -> `componentWillUpdate` -> `render` -> `componentDidUpdate`
-  - 卸载：`componentWillUnmount`
+  - 卸载：`componentWillUnmount`  
   ![旧生命周期](09-组件的生命周期/02-生命周期(旧).png)  
 - 新生命周期中常用写法：
   - `static getDerivedStateFromProps(props, state)`：在 render 之前调用，用于根据 props 更新 state，必须返回对象或 null。
   - `render()`：渲染虚拟 DOM。
   - `getSnapshotBeforeUpdate(prevProps, prevState)`：在 DOM 更新前调用，返回值会传给 `componentDidUpdate`。
   - `componentDidUpdate(prevProps, prevState, snapshot)`：组件更新后调用。
-  - `componentWillUnmount()`：组件卸载前清理定时器、事件监听等。
+  - `componentWillUnmount()`：组件卸载前清理定时器、事件监听等。  
   ![新生命周期](09-组件的生命周期/04-生命周期(新).png)
 - 典型用法：在 `componentDidMount` 中启动定时器或发起请求，在 `componentWillUnmount` 中清除定时器。
 
