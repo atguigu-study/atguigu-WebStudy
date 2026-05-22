@@ -452,7 +452,7 @@ export default connect(
 
 ---
 
-## 15-setState的使用
+## [15-setState的使用](/06-setState/02-setState-异步.js)
 
 ### 用法
 - 不要直接修改 `this.state`，统一通过 `this.setState()` 触发状态更新和视图重渲染。
@@ -489,3 +489,99 @@ const Home = lazy(() => import('./pages/Home'))
   </Routes>
 </Suspense>
 ```
+
+---
+
+## 17-useState
+### 用法
+- `useState` 用于在函数组件中创建本地状态，返回 `[state, setState]`。
+- 可以定义多个状态变量，避免把所有内容放到一个对象里，写起来更清晰。
+- 修改数组或对象时不要直接修改原值（push, unshift等），要返回新引用，例如 `setFriends([...friends, 'tom'])`。
+
+[多个状态使用示例：](/13-Hooks/src/02-useState/01-多个状态的使用.js)
+```jsx
+const [count, setCount] = useState(0)
+const [age, setAge] = useState(18)
+const [friends, setFriends] = useState(['xiaoming', 'xiaohong'])
+```
+
+[复杂状态修改示例：](/13-Hooks/src/02-useState/02-复杂状态的修改.js)
+```jsx
+setFriends([...friends, 'tom'])
+```
+
+### 注意事项
+- `useState` 的更新是替换值，不会自动合并对象属性。
+- 对于引用类型，要创建新对象/数组，否则 React 可能不会检测到变化。
+- `useState` 只能在组件顶层调用，不能放在条件、循环或嵌套函数中。
+- 类组件中 `setState(updater)` 的 updater 在 `useState` 中也有对应的写法：setCount(count => count + 1)
+- 类组件中 `setState(updater, callback)` 的 callback 在 `useState` 中没有对应的写法，需要在 `useEffect(()=>{}, [state])` 中使用。
+- 函数组件每次渲染都会重新执行函数体：
+  - useState 的状态不是函数局部变量，而是由 React 内部维护。
+  - React 在每次渲染时，把最新的 state 提供给函数组件，所以看起来 state 被“保留下来”。
+
+---
+
+## 18-useEffect
+### 用法
+- `useEffect(() => { ... })` 会在组件渲染后执行副作用
+- 第二个参数是依赖数组：
+  - 不传：每次渲染后都执行。
+  - `[]`：只在首次挂载后执行，相当于类组件的 `componentDidMount`。
+  - `[dep]`：当依赖变化时执行，相当于类组件的 `componentDidUpdate`。
+- `return () => { ... }` 用于清理副作用，可取消订阅或释放资源，类似类组件的 `componentWillUnmount`。
+
+[useEffect 更新 document.title 的示例：](/13-Hooks/src/03-useEffect/02-useEffect的hook实现title的修改.js)
+```jsx
+useEffect(() => {
+  document.title = counter
+})
+```
+
+[订阅与取消订阅示例：](/13-Hooks/src/03-useEffect/03-useEffect模拟订阅和取消订阅.js)
+```jsx
+useEffect(() => {
+  console.log('订阅事件，启动定时器，Ajax请求')
+  return () => {
+    console.log('取消订阅，清理定时器')
+  }
+}, [])
+```
+
+[多个 useEffect 示例：](/13-Hooks/src/03-useEffect/04-多useEffect一起使用.js)
+```jsx
+useEffect(() => { console.log('订阅事件，只在首次挂载后执行') }, [])
+useEffect(() => { console.log('修改DOM，每次count变化后执行', count) }, [count])
+```
+
+### 注意事项
+- 副作用函数在渲染后执行，不要把它写成影响渲染结果的逻辑。
+- 清理函数会在组件卸载或下一次执行前调用，用于释放事件、定时器、订阅等。
+- 可以用多个 `useEffect` 拆分不同职责，避免一个函数里塞太多逻辑。
+
+---
+
+## 19-useRef
+### 用法
+- `useRef()` 返回一个可变对象 `{ current: ... }`，在组件整个生命周期内保持不变。
+- 常用于引用 DOM 元素：将 `ref={titleRef}` 绑定到元素上，再通过 `titleRef.current` 读取或修改 DOM。
+- 也可用于保存不参与渲染的可变值，例如保存上一次的状态值。
+
+[DOM 引用示例：](/13-Hooks/src/08-useRef/01-useRef引用DOM.js)
+```jsx
+const titleRef = useRef()
+<h2 ref={titleRef}>RefHookDemo01</h2>
+titleRef.current.innerHTML = 'Hello World'
+```
+
+[引用其他数据示例：](/13-Hooks/src/08-useRef/02-useRef引用其他数据.js)
+```jsx
+const numRef = useRef(count)
+useEffect(() => { numRef.current = count }, [count])
+```
+
+### 注意事项
+- `useRef` 修改 `current` 并不会触发组件重新渲染。
+- 如果希望获取 DOM 元素，确保绑定在原生标签或支持 ref 的组件上。
+- `useRef` 可以用来保存上一次的值、定时器 id、或者任意不需要触发渲染的可变数据。
+
