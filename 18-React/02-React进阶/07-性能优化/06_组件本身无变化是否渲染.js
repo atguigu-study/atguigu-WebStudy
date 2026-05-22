@@ -34,7 +34,7 @@ const MemoFunctionComponent = memo(function FunctionComponent() {
   </>
 })
 
-// 性能优化的核心就是减少不必要的组件重新渲染，类组件可以通过shouldComponentUpdate来控制组件是否需要重新渲染，函数组件可以通过React.memo来实现类似PureComponent的功能来控制组件是否需要重新渲染
+// 性能优化的核心就是减少不必要的组件重新渲染，类组件可以通过shouldComponentUpdate来控制组件是否需要重新渲染，或者使用PureComponent；函数组件可以通过React.memo来实现类似PureComponent的功能来控制组件是否需要重新渲染
 export default class App extends Component {
   render() {
     console.log('App render函数被调用')
