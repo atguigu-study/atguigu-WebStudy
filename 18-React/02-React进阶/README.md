@@ -467,6 +467,7 @@ export default connect(
 - setState(updater, [callback]) 函数式，`updater` 可以接收 `prevState` 和 `props` 作为参数，返回新的 state
 - 对象式的 setState 是函数式的 setState 的语法糖 
 
+---
 
 ## 16-lazyload的使用
 
@@ -585,3 +586,37 @@ useEffect(() => { numRef.current = count }, [count])
 - 如果希望获取 DOM 元素，确保绑定在原生标签或支持 ref 的组件上。
 - `useRef` 可以用来保存上一次的值、定时器 id、或者任意不需要触发渲染的可变数据。
 
+---
+
+## 20-Fragment
+### 用法
+- `<>` 可以用来包裹多个子元素，避免多层嵌套，最终的页面上会被移除。
+- `Fragment` 同样可以用来包裹多个子元素，避免多层嵌套。
+- 区别在于，`<>` 不能有任何属性，但是 `Fragment` 可以有 `key` 和其他属性，但最终页面上都会被移除。
+
+---
+
+## 21-性能优化
+
+- 组件嵌套渲染：父组件重新 render 会导致子组件也 render，即便自身并没有变化（见 [/07-性能优化/02_组件嵌套的render调用.js](/07-性能优化/02_组件嵌套的render调用.js)）。
+- 控制更新：使用 `shouldComponentUpdate(nextProps, nextState)` 自定义更新条件，避免不必要更新（见 [/07-性能优化/03_shouldComponentUpdate.js](/07-性能优化/03_shouldComponentUpdate.js)）。
+- `PureComponent`：通过浅比较自动阻止相同 props/state 的重复渲染，适用于类组件（见 [/07-性能优化/04_PureComponent.js](/07-性能优化/04_PureComponent.js)）。
+- `React.memo`：为函数组件提供类似的浅比较优化，可传入自定义比较函数（见 [/07-性能优化/05_memo的使用.js](/07-性能优化/05_memo的使用.js)）。
+- 无变化时的渲染：即使组件自身无变化，父组件 render 可能触发子组件 render，结合 `PureComponent`/`memo` 或 `shouldComponentUpdate` 可避免（见 [/07-性能优化/06_组件本身无变化是否渲染.js](/07-性能优化/06_组件本身无变化是否渲染.js)）。
+- 引用类型注意：更新数组/对象需返回新引用（如展开运算符），否则浅比较无法检测到变化（见 [/07-性能优化/07_数组地址无变化是否渲染.js](/07-性能优化/07_数组地址无变化是否渲染.js)）。
+
+  - 点击 push
+    | 组件类型                  | render是否执行 | UI是否更新        | 原因                                    |
+    | --------------------- | ---------- | ------------- | ------------------------------------- |
+    | ClassComponent        | ✅ 会        | ⚠️ 不保证（通常不更新） | Component默认render，但state被直接修改，违反不可变原则 |
+    | ClassPureComponent    | ❌ 不会       | ❌ 不会          | shallow compare发现arr引用没变              |
+    | FunctionComponent     | ❌ 不会       | ❌ 不会          | useState内部Object.is判断state没变          |
+    | MemoFunctionComponent | ❌ 不会       | ❌ 不会          | 同上，state引用没变                          |
+
+  - 点击 destructure
+    | 组件类型                  | render是否执行 | UI是否更新 | 原因                   |
+    | --------------------- | ---------- | ------ | -------------------- |
+    | ClassComponent        | ✅ 会        | ✅ 会    | setState触发render     |
+    | ClassPureComponent    | ✅ 会        | ✅ 会    | shallow compare发现新引用 |
+    | FunctionComponent     | ✅ 会        | ✅ 会    | useState发现新state     |
+    | MemoFunctionComponent | ✅ 会        | ✅ 会    | state变化一定render      |

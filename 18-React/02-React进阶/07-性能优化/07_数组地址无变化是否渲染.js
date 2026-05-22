@@ -12,7 +12,7 @@ class ClassComponent extends Component {
     this.setState({ arr });
   }
 
-  deconstruct = () => {
+  destructure = () => {
     this.setState({ arr: [...this.state.arr, this.state.arr.length + 1] });
   }
 
@@ -21,7 +21,7 @@ class ClassComponent extends Component {
     return <>
       <h2>我是Class Component组件, array: {this.state.arr}</h2>
       <button onClick={this.push}>array push</button>
-      <button onClick={this.deconstruct}>array deconstruct</button>
+      <button onClick={this.destructure}>array destructure</button>
     </>
   }
 }
@@ -37,7 +37,7 @@ class ClassPureComponent extends PureComponent {
     this.setState({ arr: this.state.arr });
   }
 
-  deconstruct = () => {
+  destructure = () => {
     this.setState({ arr: [...this.state.arr, this.state.arr.length + 1] });
   }
 
@@ -46,7 +46,7 @@ class ClassPureComponent extends PureComponent {
     return <>
       <h2>我是ClassPureComponent组件, array: {this.state.arr}</h2>
       <button onClick={this.push}>array push</button>
-      <button onClick={this.deconstruct}>array deconstruct</button>
+      <button onClick={this.destructure}>array destructure</button>
     </>
   }
 }
@@ -60,7 +60,7 @@ function FunctionComponent() {
     setArr(arr);
   }
 
-  const deconstruct = () => {
+  const destructure = () => {
     setArr([...arr, arr.length + 1]);
   }
 
@@ -68,7 +68,7 @@ function FunctionComponent() {
   return <>
     <h2>我是Function Component组件, array: {arr}</h2>
     <button onClick={push}>array push</button>
-    <button onClick={deconstruct}>array deconstruct</button>
+    <button onClick={destructure}>array destructure</button>
   </>
 }
 
@@ -81,7 +81,7 @@ const MemoFunctionComponent = memo(function FunctionComponent() {
     setArr(arr);
   }
 
-  const deconstruct = () => {
+  const destructure = () => {
     setArr([...arr, arr.length + 1]);
   }
 
@@ -89,7 +89,7 @@ const MemoFunctionComponent = memo(function FunctionComponent() {
   return <>
     <h2>我是Memo Function Component组件, array: {arr}</h2>
     <button onClick={push}>array push</button>
-    <button onClick={deconstruct}>array deconstruct</button>
+    <button onClick={destructure}>array destructure</button>
   </>
 })
 
