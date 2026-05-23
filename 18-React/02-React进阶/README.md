@@ -300,7 +300,7 @@ store.subscribe(() => {
 })
 ```
 
-### 10-Redux完整版计算案例
+## 10-Redux完整版计算案例
 把常量、action creators、reducer、store 分离成模块化结构，示例更贴合生产代码风格。
 
 ### 用法
@@ -622,3 +622,61 @@ useEffect(() => { numRef.current = count }, [count])
       | ClassPureComponent    | ✅ 会        | ✅ 会    | shallow compare发现新引用 |
       | FunctionComponent     | ✅ 会        | ✅ 会    | useState发现新state     |
       | MemoFunctionComponent | ✅ 会        | ✅ 会    | state变化一定render      |
+
+
+---
+
+
+## 22-Context
+
+### 用法
+```jsx
+// 创建Context
+const MyContext = React.createContext({
+    // 默认值
+})
+
+// 提供Context
+<MyContext.Provider value={{/* 实际值 */}}>
+  <Parent />
+</MyContext.Provider>
+
+// 消费Context
+function Child() {
+  return (
+    <MyContext.Consumer>
+      {value => <div>{value.name}</div>}
+    </MyContext.Consumer>
+  )
+}
+```
+
+
+## 23-高阶组件(Higher-Order Component)
+
+### 用法
+- 高阶组件（HOC）本质上是一个函数：接受一个组件作为参数，返回一个新的增强组件。
+- 典型用途包括增强 props、复用 Context 消费逻辑、鉴权等。
+- 可以在 HOC 内部用类组件或函数组件包装 `WrappedComponent`，并通过 `{...props}` 透传原始 props。
+- 使用 `displayName` 可以给返回组件命名，方便调试和 DevTools 识别。
+
+[基本定义示例：](/10-高阶组件/01-高阶组件的定义.js)
+```js
+function enhanceComponent(WrappedComponent) {
+  return props => <WrappedComponent {...props} />
+}
+```
+
+[增强 props 示例：](/10-高阶组件/02-高阶组件的应用-增强props.js)
+- 通过 HOC 向多个组件统一注入额外 props（比如 `region='中国'`），避免在父组件中层层传值。
+
+[复用 Context 消费逻辑：](/10-高阶组件/03-高阶组件的应用-createContext.js)
+- HOC 可封装 `UserContext.Consumer`，把 Context 数据注入 `WrappedComponent`，减少重复代码。
+
+[鉴权示例：](/10-高阶组件/04-高阶组件的应用-鉴权.js)
+- 通过 HOC 包裹需要鉴权的组件，根据 `isLogin` 决定渲染目标组件或登录页。
+
+### 注意事项
+- HOC 只负责增强组件行为，不要直接修改被包装组件的实现。
+- 传递给 `WrappedComponent` 的 props 要使用 `{...props}` 透传，避免丢失原始 props。
+- HOC 在组件定义阶段生成，不要在 render 过程中动态创建。
