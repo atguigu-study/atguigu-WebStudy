@@ -15,10 +15,10 @@ body {
 
 .navLeft, .navRight {
   width: 70px;
-  background-color: red;
+  background-color: indianred;
 }
 
 .navCenter {
   flex: 1;
-  background-color: blue;
+  background-color: royalblue;
 }
