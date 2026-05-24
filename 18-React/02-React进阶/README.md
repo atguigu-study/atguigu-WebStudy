@@ -3,65 +3,31 @@
 将子文件夹中代码复制到根目录的src文件夹内即可运行 `npm run dev`，具体笔记在相关子文件夹
 
 ---
-- [React进阶知识学习](#react进阶知识学习)
-  - [01-create react app脚手架文件](#01-create-react-app脚手架文件)
-  - [02-React路由的基本使用](#02-react路由的基本使用)
-    - [用法](#用法)
-    - [注意事项](#注意事项)
-  - [03-NavLink与封装NavLink](#03-navlink与封装navlink)
-    - [用法](#用法-1)
-  - [04-嵌套路由](#04-嵌套路由)
-    - [用法](#用法-2)
-  - [05-路由参数（params）](#05-路由参数params)
-    - [用法](#用法-3)
-    - [注意事项](#注意事项-1)
-  - [06-路由参数（search）](#06-路由参数search)
-    - [用法](#用法-4)
-    - [注意事项](#注意事项-2)
-  - [07-路由参数（state）](#07-路由参数state)
-    - [用法](#用法-5)
-    - [注意事项](#注意事项-3)
-  - [08-编程式路由导航](#08-编程式路由导航)
-    - [用法](#用法-6)
-    - [注意事项](#注意事项-4)
-  - [09-Redux精简版计算案例](#09-redux精简版计算案例)
-    - [用法](#用法-7)
-  - [10-Redux完整版计算案例](#10-redux完整版计算案例)
-    - [用法](#用法-8)
-  - [11-Redux异步action](#11-redux异步action)
-    - [用法](#用法-9)
-    - [注意事项（适用于以上示例）](#注意事项适用于以上示例)
-  - [12-react-redux基础使用](#12-react-redux基础使用)
-    - [用法](#用法-10)
-  - [13-融合UI组件与容器组件](#13-融合ui组件与容器组件)
-    - [用法](#用法-11)
-  - [14-react-redux多组件数据共享](#14-react-redux多组件数据共享)
-    - [用法](#用法-12)
-    - [注意事项](#注意事项-5)
-  - [15-setState的使用](#15-setstate的使用)
-    - [用法](#用法-13)
-    - [注意事项](#注意事项-6)
-  - [16-lazyload的使用](#16-lazyload的使用)
-    - [用法](#用法-14)
-  - [17-useState](#17-usestate)
-    - [用法](#用法-15)
-    - [注意事项](#注意事项-7)
-  - [18-useEffect](#18-useeffect)
-    - [用法](#用法-16)
-    - [注意事项](#注意事项-8)
-  - [19-useRef](#19-useref)
-    - [用法](#用法-17)
-    - [注意事项](#注意事项-9)
-  - [20-Fragment](#20-fragment)
-    - [用法](#用法-18)
-  - [21-性能优化](#21-性能优化)
-  - [22-Context](#22-context)
-    - [用法](#用法-19)
-  - [23-高阶组件(Higher-Order Component)](#23-高阶组件higher-order-component)
-    - [用法](#用法-20)
-    - [注意事项](#注意事项-10)
-  - [24-自定义slot](#24-自定义slot)
-    - [用法](#用法-21)
+- [01-create react app脚手架文件](#01-create-react-app脚手架文件)
+- [02-React路由的基本使用](#02-react路由的基本使用)
+- [03-NavLink与封装NavLink](#03-navlink与封装navlink)
+- [04-嵌套路由](#04-嵌套路由)
+- [05-路由参数（params）](#05-路由参数params)
+- [06-路由参数（search）](#06-路由参数search)
+- [07-路由参数（state）](#07-路由参数state)
+- [08-编程式路由导航](#08-编程式路由导航)
+- [09-Redux精简版计算案例](#09-redux精简版计算案例)
+- [10-Redux完整版计算案例](#10-redux完整版计算案例)
+- [11-Redux异步action](#11-redux异步action)
+- [12-react-redux基础使用](#12-react-redux基础使用)
+- [13-融合UI组件与容器组件](#13-融合ui组件与容器组件)
+- [14-react-redux多组件数据共享](#14-react-redux多组件数据共享)
+- [15-setState的使用](#15-setstate的使用)
+- [16-lazyload的使用](#16-lazyload的使用)
+- [17-useState](#17-usestate)
+- [18-useEffect](#18-useeffect)
+- [19-useRef](#19-useref)
+- [20-Fragment](#20-fragment)
+- [21-性能优化](#21-性能优化)
+- [22-Context](#22-context)
+- [23-高阶组件(Higher-Order Component)](#23-高阶组件higher-order-component)
+- [24-自定义slot](#24-自定义slot)
+- [25-组件间通信方式](#25-组件间通信方式)
 ---
 
 ## 01-create react app脚手架文件
@@ -763,3 +729,25 @@ function enhanceComponent(WrappedComponent) {
 ```jsx
 <div className="navLeft">{leftSlot(name)}</div>
 ```
+
+---
+
+## 25-组件间通信方式
+
+### 组件间关系
+- 父子组件
+- 兄弟组件
+- 祖孙组件
+
+### 几种通信方式
+- props
+  - children props
+  - render props
+- context: provider/consumer
+- 集中式管理：redux
+- 消息订阅-发布：pubsub, event
+
+### 比较好的搭配方式
+- 父子组件：props
+- 兄弟组件：消息订阅-发布，集中式管理
+- 祖孙组件：消息订阅-发布，集中式管理，context（发开中用的少，自定义封装插件中用的多）
