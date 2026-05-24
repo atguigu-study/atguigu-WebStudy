@@ -635,7 +635,7 @@ useEffect(() => { numRef.current = count }, [count])
     - 点击 push
       | 组件类型                  | render是否执行 | UI是否更新        | 原因                                    |
       | --------------------- | ---------- | ------------- | ------------------------------------- |
-      | ClassComponent        | ✅ 会        | ⚠️ 不保证（通常不更新） | Component默认render，但state被直接修改，违反不可变原则 |
+      | ClassComponent        | ✅ 会        | ⚠️ 不保证 | Component默认render，但state被直接修改，违反不可变原则 |
       | ClassPureComponent    | ❌ 不会       | ❌ 不会          | shallow compare发现arr引用没变              |
       | FunctionComponent     | ❌ 不会       | ❌ 不会          | useState内部Object.is判断state没变          |
       | MemoFunctionComponent | ❌ 不会       | ❌ 不会          | 同上，state引用没变                          |
@@ -648,6 +648,8 @@ useEffect(() => { numRef.current = count }, [count])
       | FunctionComponent     | ✅ 会        | ✅ 会    | useState发现新state     |
       | MemoFunctionComponent | ✅ 会        | ✅ 会    | state变化一定render      |
 
+### 注意事项
+- `useMemo` 可以缓存组件，也可以缓存组件中的函数，避免组件重新渲染时重复执行。
 
 ---
 
@@ -740,10 +742,10 @@ function enhanceComponent(WrappedComponent) {
 - 祖孙组件
 
 ### 几种通信方式
-- props
+- props [使用props通信](./05-通信/01-使用props通信.js)
   - children props
   - render props
-- context: provider/consumer
+- context: provider/consumer [使用context通信](./05-通信/02-使用context通信-类式组件.js)
 - 集中式管理：redux
 - 消息订阅-发布：pubsub, event
 
