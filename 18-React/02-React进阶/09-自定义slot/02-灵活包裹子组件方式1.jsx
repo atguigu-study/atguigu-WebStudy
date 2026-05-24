@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-// 使用this.props.children，Parent无法把name传递给Child组件
+// 使用children props，Parent无法把name传递给Child组件
 export default function App() {
   return (
     <div>
