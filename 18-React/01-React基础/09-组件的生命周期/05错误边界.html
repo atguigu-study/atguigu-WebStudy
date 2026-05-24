@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>错误边界</title>
+  <style>
+    .list {
+      width: 200px;
+      height: 150px;
+      overflow: auto;
+    }
+    .news {
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="example"></div>
+
+  <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <script type="text/babel">
+    class Child extends React.Component {
+      render() {
+        const { newsArr } = this.props;
+        if (newsArr.length > 5) {
+          throw new Error('新闻太多了！')
+        }
+        return (
+          <ul className="list">
+            {newsArr.map((news, index) => <li key={index} className="news">{news}</li>)}
+          </ul>
+        )
+      }
+    }
+
+    class Parent extends React.Component {
+      constructor(props) {
+        console.log('--constructor--')
+        super(props)
+        this.state = { hasError: false, newsArr: [] };
+      }
+
+      static getDerivedStateFromError(error) {
+        console.log('--getDerivedStateFromError--', error)
+        return {
+          hasError: true
+        }
+      }
+
+      componentDidCatch(error, info) {
+        console.log('--componentDidCatch--', error, info)
+      }
+
+      // 组件挂载完成
+      componentDidMount() {
+        console.log('--componentDidMount--')
+        this.timerID = setInterval(() => {
+          const { newsArr } = this.state;
+          const news = `新闻${newsArr.length + 1}`;
+          this.setState({ newsArr: [news, ...newsArr] })
+        }, 1000)
+      }
+
+      render() {
+        console.log('--render--')
+        if (this.state.hasError) {
+          return <h1>出错了！</h1>
+        }
+        return (
+          <div>
+            <Child newsArr={this.state.newsArr} />
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<Parent />, document.getElementById('example'))
+  </script>
+</body>
+
+</html>

@@ -1,5 +1,16 @@
 # 01-React基础
 
+- [01-HelloReact](#01-helloreact)
+- [02-JSX基本使用](#02-jsx基本使用)
+- [03-组件的基本使用](#03-组件的基本使用)
+- [04-state](#04-state)
+- [05-props](#05-props)
+- [06-ref](#06-ref)
+- [07-组件的组合使用](#07-组件的组合使用)
+- [08-受控组件\&非受控组件](#08-受控组件非受控组件)
+- [09-组件的生命周期](#09-组件的生命周期)
+- [10-错误边界](#10-错误边界)
+
 ## 01-HelloReact
 
 ### 重点
@@ -344,3 +355,32 @@ ReactDOM.render(vDOM, document.getElementById('test'))
 - `componentWillReceiveProps` 只在 props 发生变化时调用，不会在组件初始化时调用。
 
 ---
+
+## 10-错误边界
+
+### 重点
+- React 中的错误边界（Error Boundary）：用于捕获后代组件中的错误，以便进行错误处理，避免整个应用崩溃。
+- 只能捕获后代组件生命周期中的错误，不能捕获自身组件的错误。
+- 不能捕获合成事件，定时器中产生的错误，只能捕获在 render 中发生的错误。
+
+### 用法
+```jsx
+static getDerivedStateFromError(error) {
+  // 更新 state 使下一次渲染能够显示降级后的 UI
+  return { hasError: true }
+}
+render() {
+  if (this.state.hasError) {
+    // 可以自定义降级后的 UI 并渲染
+    return <h1>Something went wrong.</h1>
+  }
+  return this.props.children
+}
+```
+
+```jsx
+componentDidCatch(error, errorInfo) {
+  // 同样可以集成日志服务
+  logErrorToMyService(error, errorInfo)
+}
+```
