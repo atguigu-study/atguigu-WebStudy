@@ -1,4 +1,7 @@
 # 01-React基础
+[尚硅谷React教程](https://www.bilibili.com/video/BV1wy4y1D7JT/)  
+[尚硅谷】2021 React全家桶【React17】](https://www.youtube.com/playlist?list=PLmOn9nNkQxJFJXLvkNsGsoCUxJLqyLGxu)
+
 
 - [01-HelloReact](#01-helloreact)
 - [02-JSX基本使用](#02-jsx基本使用)

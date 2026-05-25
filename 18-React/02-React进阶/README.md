@@ -1,6 +1,8 @@
 # React进阶知识学习
 
-将子文件夹中代码复制到根目录的src文件夹内即可运行 `npm run dev`，具体笔记在相关子文件夹
+将子文件夹中代码复制到根目录的src文件夹内即可运行 `npm run dev`，具体笔记在相关子文件夹  
+[尚硅谷React教程](https://www.bilibili.com/video/BV1wy4y1D7JT/)  
+[尚硅谷】2021 React全家桶【React17】](https://www.youtube.com/playlist?list=PLmOn9nNkQxJFJXLvkNsGsoCUxJLqyLGxu)
 
 ---
 - [01-create react app脚手架文件](#01-create-react-app脚手架文件)
@@ -129,6 +131,15 @@ const routes = [
 ]
 ```
 
+[useRoutes():](/14-Router/02-嵌套路由/App.jsx)
+```jsx
+import { useRoutes } from 'react-router-dom'
+
+const element = useRoutes(routes)
+
+<div>{element}</div>
+```
+
 [父组件中的占位符 `<Outlet />`：](/14-Router/02-嵌套路由/pages/Home.jsx)
 ```jsx
 function Home() {
@@ -140,6 +151,17 @@ function Home() {
     </div>
   )
 }
+```
+
+或者直接使用 `<Route>` 嵌套：
+```jsx
+<Routes>
+  <Route path="/home" element={<Home />}>
+    <Route path="news" element={<News />} />
+    <Route path="message" element={<Message />} />
+  </Route>
+  <Route path="/about" element={<About />} />
+</Routes>
 ```
 
 ---
@@ -211,7 +233,7 @@ const { id, title, content } = useParams()
 ```jsx
 import { useSearchParams } from 'react-router-dom'
 
-const [search] = useSearchParams()
+const [search, setSearch] = useSearchParams()
 const id = search.get('id')
 const title = search.get('title')
 const content = search.get('content')
